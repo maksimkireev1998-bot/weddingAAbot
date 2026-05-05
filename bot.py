@@ -1,6 +1,9 @@
 import asyncio
 from datetime import datetime
 
+import asyncio
+from datetime import datetime
+
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import Command
 from aiogram.types import (
@@ -17,10 +20,9 @@ load_dotenv()
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-import json
-
 # ================= НАСТРОЙКИ =================
 TOKEN = os.getenv("BOT_TOKEN")
+GOOGLE_CREDS_FILE = os.getenv("GOOGLE_CREDS_FILE")
 SHEET_NAME = os.getenv("SHEET_NAME")
 
 # ================= GOOGLE SHEETS =================
@@ -28,8 +30,8 @@ scope = [
     "https://spreadsheets.google.com/feeds",
     "https://www.googleapis.com/auth/drive"
 ]
-creds_json = json.loads(os.getenv("GOOGLE_CREDS_JSON"))
-creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_json, scope)
+
+creds = ServiceAccountCredentials.from_json_keyfile_name(GOOGLE_CREDS_FILE, scope)
 client = gspread.authorize(creds)
 sheet = client.open(SHEET_NAME).sheet1
 
